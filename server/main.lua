@@ -308,6 +308,28 @@ function ConvertDecToHex(dec)
 	return dec
 end
 
+-- Rcon commands
+AddEventHandler('rconCommand', function(commandName, args)
+	if commandName == 'whitesteam' then
+		local msg = table.concat(args, ' ')
+
+        	print(msg)
+        	msg = tonumber(msg)
+        	msg = string.format("%x", msg * 256)
+        	msg = msg:sub(1, -3)
+        	print(msg)
+        	msg = 'steam:1'..msg
+        	print(msg)
+        	MySQL.Sync.execute(
+        		"INSERT INTO `essentialmode`.`whitelist` (`identifier`) VALUES (@result)",
+        		{	['@result'] = msg}
+        	)
+        	loadWhiteList()
+        	print(msg..' added to the whitelist\nWhitelist reloaded')
+        	CancelEvent()
+	end
+end)
+
 function stringsplit(inputstr, sep)
 	if sep == nil then
 		sep = "%s"
