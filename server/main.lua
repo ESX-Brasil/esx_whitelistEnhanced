@@ -250,12 +250,12 @@ TriggerEvent('es:addGroupCommand', 'reloadwl', 'admin', function (source, args, 
 	loadWhiteList()
 	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', _U('whitelist_reloaded') } })
 end, function (source, args, user)
-	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficienct permissions!' } })
+	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Permissões insuficientes!' } })
 end, {help = _U("reload_whitelist")})
 
 TriggerEvent('es:addGroupCommand', 'addwl', 'admin', function (source, args, user)
 	if not args[1] or not args[2] then
-		TriggerEvent('esx_whitelistExtended:sendMessage', source, '^1SYSTEM', 'Invalid usage!')
+		TriggerEvent('esx_whitelistExtended:sendMessage', source, '^1SYSTEM', 'Uso inválido!')
 		return
 	end
 
@@ -263,29 +263,29 @@ TriggerEvent('es:addGroupCommand', 'addwl', 'admin', function (source, args, use
 		if string.len(args[2]) == 21 then
 			TriggerEvent('esx_whitelistExtended:whitelistUser', source, args[2])
 		else
-			TriggerEvent('esx_whitelistExtended:sendMessage', source, '^1SYSTEM', 'Invalid steam hex length!')
+			TriggerEvent('esx_whitelistExtended:sendMessage', source, '^1SYSTEM', 'Comprimento hexadecimal de steam inválido!')
 		end
 	elseif args[1] == 'dec' then
 		if tonumber(args[2]) and string.len(args[2]) == 17 then
 			TriggerEvent('esx_whitelistExtended:whitelistUser', source, ConvertDecToHex(tonumber(args[2])))
 		else
-			TriggerEvent('esx_whitelistExtended:sendMessage', source, '^1SYSTEM', 'Invalid steam dec length!')
+			TriggerEvent('esx_whitelistExtended:sendMessage', source, '^1SYSTEM', 'Comprimento de decaimento de steam inválido!')
 		end
 	else
-		TriggerEvent('esx_whitelistExtended:sendMessage', source, '^1SYSTEM', 'Invalid usage, unknown numeral system!')
+		TriggerEvent('esx_whitelistExtended:sendMessage', source, '^1SYSTEM', 'Uso inválido, sistema numeral desconhecido!')
 	end
 end, function (source, args, user)
-	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficienct permissions!' } })
-end, {help = "Add a player to the whitelist", params = {{name = "numeral system", help = "accepted values are either DEC or HEX. If you want to whitelist a set of digits it's decimal."}, {name = "steam identifier", help = "the identifier, either a set of digits or a ready steam hex"}}})
+	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Permissões insuficientes!' } })
+end, {help = "Adicionar um jogador à lista de permissões", params = {{name = "numeral system", help = "os valores aceitos são DEC ou HEX. Se você quiser whitelist um conjunto de dígitos é decimal."}, {name = "steam identifier", help = "the identifier, either a set of digits or a ready steam hex"}}})
 
 -- End game whitelisting
 AddEventHandler('esx_whitelistExtended:whitelistUser', function(source, identifier)
 	MySQL.Async.fetchAll('SELECT * FROM whitelist WHERE identifier=@identifier', {['@identifier'] = identifier}, function(result)
 		if result[1] ~= nil then
-			TriggerEvent('esx_whitelistExtended:sendMessage', source, '^1SYSTEM', 'The player is already whitelisted on this server!')
+			TriggerEvent('esx_whitelistExtended:sendMessage', source, '^1SYSTEM', 'O jogador já está na lista de permissões neste servidor!')
 		else
 			MySQL.Async.execute("INSERT INTO whitelist (identifier) VALUES (@identifier)", {['@identifier'] = identifier})
-			TriggerEvent('esx_whitelistExtended:sendMessage', source, 'Whitelist', 'The player has been whitelisted! Identifier: ' .. identifier)
+			TriggerEvent('esx_whitelistExtended:sendMessage', source, 'Whitelist', 'O jogador foi colocado na lista de autorizações! Identificador: ' .. identifier)
 			loadWhiteList()
 		end
 	end)
