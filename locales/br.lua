@@ -1,4 +1,5 @@
 Locales['br'] = {
+
 	['not_in_whitelist'] = 'Este servidor está usando uma lista de permissões. Para falar sobre isso, junte-se a nós aqui: %s',
 	['missing_steam_id'] = 'Não foi possível encontrar o seu steamID',
 	['banned_from_server'] = 'Você está banido deste servidor',
@@ -20,4 +21,5 @@ Locales['br'] = {
 
 	['reload_whitelist'] = 'Reload whitelist',
 	['whitelist_reloaded'] = 'Successfully reloaded whitelist'
+	
 }
